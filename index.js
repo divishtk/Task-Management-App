@@ -1,9 +1,10 @@
 console.log("JS Working");
 
-
 const cardsContainer = document.querySelector(".cards_container");
-
 //console.log(cardsContainer);
+
+const globalStore = [];
+
 const saveChanges = () => {
   const taskData = {
     id: `${Date.now()}`, //generates the unique id (Date,now)
@@ -15,8 +16,22 @@ const saveChanges = () => {
 
   console.log(taskData);
 
+  
+  cardsContainer.insertAdjacentHTML("beforeend", generateNewCards(taskData));
 
-  const generateNewCards=(taskData) => `
+  globalStore.push(taskData);
+
+  localStorage.setItem("taskY", JSON.stringify({ cards: globalStore })); //json.stringify accepts an object ie cards
+  //  console.log(cardsContainer)
+
+  
+};
+
+
+
+
+
+const generateNewCards = (taskData) => `
 <div class="col-md-6 col-lg-4" id="${taskData.id}">
 <div class="card text-center">
   <div class="card-header d-flex justify-content-end">
@@ -49,9 +64,36 @@ const saveChanges = () => {
 </div>`;
 
 
-  cardsContainer.insertAdjacentHTML("beforeend",generateNewCards(taskData));
-
-  //  console.log(cardsContainer)
-};
 
 
+
+
+
+const loadCardData = () => {
+    //will call localstorge to get tasky card data
+
+    const getCardFromLocalStorage = localStorage.getItem("taskY");
+
+    //convert from string to normal JS object
+
+    const { cards } = JSON.parse(getCardFromLocalStorage);
+
+    //loop over those  array of task objects  to create HTML cards and inject it to DOM
+    cards.map((cardObject) => {
+      cardsContainer.insertAdjacentHTML(
+        "beforeend",
+        generateNewCards(cardObject)
+      );
+
+      //update globalStorage
+      globalStore.push(cardObject);
+    });
+  };
+
+//API (APPLICATION PROGRAMMING INTERFACE)
+
+//localstorge->application
+//access  application via ->programming
+//Interface as middleman(inerface is something  to interact with applications progamtically)
+
+//localstorage -->with some methods(Add,delete,update) -->js
