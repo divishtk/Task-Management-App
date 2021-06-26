@@ -3,7 +3,7 @@ console.log("JS Working");
 
 const cardsContainer = document.querySelector(".cards_container");
 
-
+//console.log(cardsContainer);
 const saveChanges = () => {
   const taskData = {
     id: `${Date.now()}`, //generates the unique id (Date,now)
@@ -16,7 +16,7 @@ const saveChanges = () => {
   console.log(taskData);
 
 
-  const newCards = `
+  const generateNewCards=(taskData) => `
 <div class="col-md-6 col-lg-4" id="${taskData.id}">
 <div class="card text-center">
   <div class="card-header d-flex justify-content-end">
@@ -49,7 +49,7 @@ const saveChanges = () => {
 </div>`;
 
 
-  cardsContainer.insertAdjacentHTML("beforeend",newCards);
+  cardsContainer.insertAdjacentHTML("beforeend",generateNewCards(taskData));
 
   //  console.log(cardsContainer)
 };
